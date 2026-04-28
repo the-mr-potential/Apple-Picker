@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class Basket : MonoBehaviour
 {
     public ScoreCounter scoreCounter;
+    public AudioSource audioSource;
     
     void Start() // We'll add code to Start () Later
     {
@@ -11,6 +12,11 @@ public class Basket : MonoBehaviour
         GameObject scoreGO = GameObject.Find("ScoreCounter");
         // Get the ScoreCounter (Script) component of ScoreGO
         scoreCounter = scoreGO.GetComponent<ScoreCounter>();
+
+        if (audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     void Update()
@@ -39,6 +45,7 @@ public class Basket : MonoBehaviour
         GameObject collidedWith = coll.gameObject;
         if ( collidedWith.CompareTag( "Apple" ))
         {
+            audioSource.PlayOneShot(audioSource.clip);
             Destroy( collidedWith );
             scoreCounter.score += 100;
             HighScore.TRY_SET_HIGH_SCORE( scoreCounter.score );
